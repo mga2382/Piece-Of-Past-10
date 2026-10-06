@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no"
+  >
+
+  <meta name="theme-color" content="#111827">
+
+  <title>PIECE OF PAST 9</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<main id="app">
+
+  <header>
+    <b>PIECE OF PAST 9</b>
+
+    <span>
+      BÖLÜM
+      <strong id="levelNumber">1</strong>
+    </span>
+  </header>
+
+  <div class="progress">
+
+    <span id="progressText">
+      0 / 20
+    </span>
+
+    <i>
+      <em id="progressFill"></em>
+    </i>
+
+  </div>
+
+  <section id="wordBoard"></section>
+
+  <section class="game">
+
+    <div id="formedWord">
+      &nbsp;
+    </div>
+
+    <canvas id="pathCanvas"></canvas>
+
+    <div id="letterCircle"></div>
+
+    <div class="controls">
+
+      <button id="shuffleBtn">
+        KARIŞTIR
+      </button>
+
+      <button id="clearBtn">
+        TEMİZLE
+      </button>
+
+    </div>
+
+  </section>
+
+  <div id="message"></div>
+
+  <nav>
+
+    <button id="prevBtn">
+      ‹
+    </button>
+
+    <button id="nextBtn">
+      ›
+    </button>
+
+  </nav>
+
+</main>
+
+<script src="game.js"></script>
+
+</body>
+</html>
