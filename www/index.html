@@ -20,5 +20,21 @@
 </div>
 </section>
 </main>
+<div id="start" class="ov">
+<img id="startImg" src="assets/oyun.png" alt="" onerror="this.style.display='none';document.getElementById('startTitle').style.display='block'">
+<h1 id="startTitle">PIECE OF PAST 10</h1>
+<button id="startBtn" class="big">BAŞLAT</button>
+</div>
+<div id="gift" class="ov hidden">
+<h2>GÜNLÜK HEDİYE</h2>
+<div id="gwheel"><i id="gptr"></i><img id="gimg" src="assets/cark.png" width="512" height="512" alt="" onerror="this.style.display='none';this.parentNode.classList.add('nofile')"></div>
+<div id="giftRes"></div>
+<button id="spinBtn" class="big">ÇEVİR</button>
+<button id="giftClose" class="big" style="display:none">TAMAM</button>
+</div>
+<div id="end" class="ov hidden">
+<h2>TEBRİKLER<br>OYUN BİTTİ</h2>
+<button id="replayBtn" class="big">BAŞTAN OYNA</button>
+</div>
 <script src="layout.js"></script><script src="game.js"></script>
 </body></html>

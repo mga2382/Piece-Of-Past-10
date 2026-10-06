@@ -1,11 +1,13 @@
 const $=id=>document.getElementById(id);
-const S={levels:[],i:0,u:0,P:{},coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),bonus:new Set(),cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
+const S={levels:[],i:0,u:0,P:{},gd:"",on:false,coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),bonus:new Set(),cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
 const wheel=$("wheel"),cv=$("path"),cx=cv.getContext("2d");
 const save=()=>{try{
  const L=S.levels[S.i];
  if(L&&S.cells.size)S.P[L.id]={on:[...S.cells].filter(([k,c])=>c.on).map(([k])=>k),found:[...S.found],bonus:[...S.bonus],letters:S.letters,done:S.done};
- localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
+ localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,gd:S.gd,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
 const msg=t=>{$("msg").textContent=t};
+const SND={ses:new Audio("assets/ses.mp3"),cark:new Audio("assets/cark.mp3")};
+const snd=k=>{try{const a=SND[k];a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
 const mix=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
 async function init(){
@@ -63,7 +65,7 @@ function reveal(k){
   if(ok)S.found.add(o.w)});
  ui();save();
  if(!S.done&&S.found.size===S.words.length){S.done=true;S.coins+=10;S.u=Math.max(S.u,Math.min(S.i+1,S.levels.length-1));msg("Bölüm tamamlandı! +10");ui();save();
-  const li=S.i;setTimeout(()=>{if(S.i===li&&S.i<S.levels.length-1){S.i++;load()}},1600)}}
+  const li=S.i;setTimeout(()=>{if(S.i!==li)return;if(S.i<S.levels.length-1){S.i++;load()}else showEnd()},1600)}}
 
 function revealWord(w){const o=S.words.find(x=>x.w===w);
  [...w].forEach((_,j)=>reveal((o.r+(o.d?j:0))+","+(o.c+(o.d?0:j))))}
@@ -108,9 +110,9 @@ function paint(e){
  if(e&&S.drag){const r=wheel.getBoundingClientRect();cx.lineTo(e.clientX-r.left,e.clientY-r.top)}
  cx.stroke()}
 
-wheel.addEventListener("pointerdown",e=>{const h=hit(e);if(h<0)return;S.drag=true;S.sel=[h];msg("");paint(e)});
+wheel.addEventListener("pointerdown",e=>{const h=hit(e);if(h<0)return;S.drag=true;S.sel=[h];msg("");snd("ses");paint(e)});
 addEventListener("pointermove",e=>{if(!S.drag)return;const h=hit(e);
- if(h>=0){const n=S.sel.length;if(h===S.sel[n-2])S.sel.pop();else if(!S.sel.includes(h))S.sel.push(h)}paint(e)});
+ if(h>=0){const n=S.sel.length;if(h===S.sel[n-2]){S.sel.pop();snd("ses")}else if(!S.sel.includes(h)){S.sel.push(h);snd("ses")}}paint(e)});
 const end=()=>{if(!S.drag)return;S.drag=false;const w=S.sel.map(i=>S.letters[i]).join("");S.sel=[];paint();
  if(w.length>=3)submit(w);else if(w.length)msg("En az 3 harf")};
 addEventListener("pointerup",end);addEventListener("pointercancel",end);
@@ -132,6 +134,39 @@ $("nextBtn").onclick=()=>{
  S.i++;load()};
 
 // ---- Arka plana alınınca / kapanırken kaydet ----
-addEventListener("visibilitychange",()=>{if(document.hidden){S.drag=false;S.sel=[];paint();save()}});
+addEventListener("visibilitychange",()=>{if(document.hidden){S.drag=false;S.sel=[];paint();save()}
+ else if(S.on&&S.gd!==today()&&$("gift").classList.contains("hidden"))showGift()});
 addEventListener("pagehide",save);
+// ---- Başlangıç ekranı ----
+$("startBtn").onclick=()=>{$("start").classList.add("hidden");S.on=true;
+ if(S.gd!==today())showGift();else if(ended())showEnd()};
+
+// ---- Günlük hediye çarkı ----
+// cark.png'deki dilimlerin altın değerleri: üstteki oktan başlayıp SAAT YÖNÜNDE sırayla. Dilim sayısı = listedeki eleman sayısı.
+const GIFT=[10,25,50,75,100,150,250,500];
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
+let spinning=false;
+function showGift(){
+ const w=$("gimg");w.style.transition="none";w.style.transform="rotate(0deg)";
+ $("giftRes").textContent="";$("spinBtn").style.display="";$("giftClose").style.display="none";
+ $("gift").classList.remove("hidden")}
+$("spinBtn").onclick=()=>{
+ if(spinning)return;spinning=true;
+ const n=GIFT.length,seg=360/n,k=Math.floor(Math.random()*n),v=GIFT[k];
+ S.coins+=v;S.gd=today();save();
+ const w=$("gimg");w.style.transition="none";w.style.transform="rotate(0deg)";void w.offsetWidth;
+ w.style.transition="transform 4.2s cubic-bezier(.17,.67,.12,1)";
+ w.style.transform="rotate("+(360*6-k*seg+(Math.random()-.5)*seg*.6)+"deg)";
+ $("spinBtn").style.display="none";snd("cark");
+ setTimeout(()=>{spinning=false;$("giftRes").textContent="+"+v+" altın kazandın!";$("giftClose").style.display="";ui()},4400)};
+$("giftClose").onclick=()=>{try{SND.cark.pause()}catch(e){}
+ $("gift").classList.add("hidden");if(ended())showEnd()};
+
+// ---- Oyun sonu ----
+const ended=()=>S.levels.length>0&&S.i>=S.levels.length-1&&S.done;
+function showEnd(){$("end").classList.remove("hidden")}
+$("replayBtn").onclick=()=>{
+ S.coins=0;S.hint=10;S.hammer=5;S.u=0;S.i=0;S.P={};
+ $("end").classList.add("hidden");load()};
+
 init();
