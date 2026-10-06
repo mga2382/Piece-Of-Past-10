@@ -1,14 +1,20 @@
 const $=id=>document.getElementById(id);
-const S={levels:[],i:0,coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),bonus:new Set(),cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
+const S={levels:[],i:0,u:0,P:{},coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),bonus:new Set(),cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
 const wheel=$("wheel"),cv=$("path"),cx=cv.getContext("2d");
-const save=()=>{try{localStorage.setItem("pop10",JSON.stringify({i:S.i,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
+const save=()=>{try{
+ const L=S.levels[S.i];
+ if(L&&S.cells.size)S.P[L.id]={on:[...S.cells].filter(([k,c])=>c.on).map(([k])=>k),found:[...S.found],bonus:[...S.bonus],letters:S.letters,done:S.done};
+ localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
 const msg=t=>{$("msg").textContent=t};
 const mix=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
 async function init(){
  try{const r=await fetch("data/levels.json");S.levels=(await r.json()).levels;
-  try{Object.assign(S,JSON.parse(localStorage.getItem("pop10"))||{})}catch(e){}
-  if(!S.levels[S.i])S.i=0;load();addEventListener("resize",()=>{buildWheel();drawBoard()})}
+  try{const sv=JSON.parse(localStorage.getItem("pop10"))||{};if(sv.u==null)sv.u=sv.i||0;Object.assign(S,sv)}catch(e){}
+  if(!S.P||typeof S.P!=="object")S.P={};
+  if(!S.levels[S.i])S.i=0;
+  S.u=Math.max(0,Math.min(S.u|0,S.levels.length-1));if(S.i>S.u)S.i=S.u;
+  load();addEventListener("resize",()=>{buildWheel();drawBoard()})}
  catch(e){msg("Seviyeler yüklenemedi: "+e.message)}}
 
 function load(){
@@ -17,7 +23,15 @@ function load(){
  S.all=new Set(all);S.words=lay.words;S.rows=lay.rows;S.cols=lay.cols;
  S.found=new Set();S.bonus=new Set();S.cells=new Map();S.done=false;S.hm=false;
  S.words.forEach(o=>[...o.w].forEach((ch,k)=>{const key=(o.r+(o.d?k:0))+","+(o.c+(o.d?0:k));if(!S.cells.has(key))S.cells.set(key,{ch,on:false})}));
- S.letters=mix(L.letters);msg("");$("levelNumber").textContent=L.id;setBg(L.id);
+ S.letters=mix(L.letters);
+ const p=S.P[L.id];
+ if(p){try{
+  (p.on||[]).forEach(k=>{const c=S.cells.get(k);if(c)c.on=true});
+  S.found=new Set((p.found||[]).filter(w=>S.words.some(o=>o.w===w)));
+  S.bonus=new Set((p.bonus||[]).filter(w=>S.all.has(w)&&!S.words.some(o=>o.w===w)));
+  S.done=!!p.done;
+  if(p.letters&&[...p.letters].sort().join()===[...L.letters].sort().join())S.letters=[...p.letters]}catch(e){}}
+ msg("");$("levelNumber").textContent=L.id;setBg(L.id);
  buildWheel();drawBoard();ui();save()}
 
 function setBg(id){
@@ -48,8 +62,8 @@ function reveal(k){
   const ok=[...o.w].every((_,j)=>S.cells.get((o.r+(o.d?j:0))+","+(o.c+(o.d?0:j))).on);
   if(ok)S.found.add(o.w)});
  ui();save();
- if(!S.done&&S.found.size===S.words.length){S.done=true;S.coins+=10;msg("Bölüm tamamlandı! +10");ui();save();
-  setTimeout(()=>{if(S.i<S.levels.length-1){S.i++;load()}},1600)}}
+ if(!S.done&&S.found.size===S.words.length){S.done=true;S.coins+=10;S.u=Math.max(S.u,Math.min(S.i+1,S.levels.length-1));msg("Bölüm tamamlandı! +10");ui();save();
+  const li=S.i;setTimeout(()=>{if(S.i===li&&S.i<S.levels.length-1){S.i++;load()}},1600)}}
 
 function revealWord(w){const o=S.words.find(x=>x.w===w);
  [...w].forEach((_,j)=>reveal((o.r+(o.d?j:0))+","+(o.c+(o.d?0:j))))}
@@ -64,7 +78,9 @@ function ui(){
  $("coins").textContent=S.coins;$("hintN").textContent=S.hint;$("hammerN").textContent=S.hammer;
  $("progressText").textContent=S.found.size+"/"+S.words.length;
  const tot=S.all.size-S.words.length;$("bonusN").textContent=S.bonus.size;
- $("bonus").style.setProperty("--p",tot?100*S.bonus.size/tot:0)}
+ $("bonus").style.setProperty("--p",tot?100*S.bonus.size/tot:0);
+ $("prevBtn").style.opacity=S.i>0?1:.35;
+ $("nextBtn").style.opacity=(S.i<S.u&&S.i<S.levels.length-1)?1:.35}
 
 // ---- Harf çarkı ----
 function buildWheel(){
@@ -100,7 +116,7 @@ const end=()=>{if(!S.drag)return;S.drag=false;const w=S.sel.map(i=>S.letters[i])
 addEventListener("pointerup",end);addEventListener("pointercancel",end);
 
 // ---- Butonlar ----
-$("shuffleBtn").onclick=()=>{S.letters=mix(S.letters);buildWheel()};
+$("shuffleBtn").onclick=()=>{S.letters=mix(S.letters);buildWheel();save()};
 const spend=k=>{if(S[k]>0){S[k]--;return true}if(S.coins>=25){S.coins-=25;return true}msg("Yetersiz hak (25 altın = 1 hak)");return false};
 $("hintBtn").onclick=()=>{
  const off=[...S.cells.keys()].filter(k=>!S.cells.get(k).on);if(!off.length||S.done)return;
@@ -108,7 +124,14 @@ $("hintBtn").onclick=()=>{
 $("hammerBtn").onclick=()=>{
  if(S.done)return;if(S.hm){S.hm=false}else{if(S.hammer<=0&&S.coins<25)return msg("Yetersiz hak (25 altın = 1 hak)");
   if(S.hammer<=0){S.coins-=25;S.hammer++}S.hm=true;msg("Açmak istediğin kutuya dokun")}
- $("hammerBtn").classList.toggle("act",S.hm);drawBoard();ui()};
+ $("hammerBtn").classList.toggle("act",S.hm);drawBoard();ui();save()};
 $("prevBtn").onclick=()=>{if(S.i>0){S.i--;load()}};
-$("nextBtn").onclick=()=>{if(S.i<S.levels.length-1){S.i++;load()}};
+$("nextBtn").onclick=()=>{
+ if(S.i>=S.levels.length-1)return;
+ if(S.i>=S.u)return msg("Sonraki bölüm için önce bu bölümü bitirmelisin");
+ S.i++;load()};
+
+// ---- Arka plana alınınca / kapanırken kaydet ----
+addEventListener("visibilitychange",()=>{if(document.hidden){S.drag=false;S.sel=[];paint();save()}});
+addEventListener("pagehide",save);
 init();
