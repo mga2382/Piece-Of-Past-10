@@ -2,7 +2,7 @@
 html,body{margin:0;height:100%;overflow:hidden;font-family:system-ui,sans-serif;touch-action:none}
 body{background:linear-gradient(#8f94ea,#c4b2e8 45%,#f8cbb5);color:#1f2340}
 button{border:0;font:inherit;cursor:pointer}
-#app{height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 14px calc(max(env(safe-area-inset-bottom),28px) + 14px)}
+#app{height:100%;display:flex;flex-direction:column;padding:max(env(safe-area-inset-top),16px) 14px calc(env(safe-area-inset-bottom) + 14px)}
 header{height:60px;display:flex;align-items:center;justify-content:space-between;flex:none}
 .pill{display:flex;align-items:center;justify-content:center;gap:8px;min-width:84px;height:38px;padding:0 14px;border-radius:19px;background:#2b2f55cc;color:#fff;font-size:17px}
 .coin{width:20px;height:20px;border-radius:50%;background:radial-gradient(#ffe27a,#f0a81c);border:2px solid #fff9}
@@ -16,14 +16,14 @@ header{height:60px;display:flex;align-items:center;justify-content:space-between
 @keyframes pulse{50%{opacity:.5}}
 #msg{height:26px;flex:none;text-align:center;font-weight:800;font-size:14px;color:#fff;text-shadow:0 1px 3px #0005}
 #preview{height:44px;flex:none;align-self:center;min-width:56px;padding:0 20px;border-radius:22px;background:#7c5cd6;color:#fff;font-size:26px;font-weight:900;letter-spacing:3px;display:flex;align-items:center;justify-content:center;visibility:hidden}
-#stage{position:relative;flex:none;height:calc(var(--w) + 20px);margin-top:10px}
-#wheel{position:relative;width:var(--w);height:var(--w);margin:10px auto 0;border-radius:50%;background:#fffffff0;box-shadow:0 6px 24px #0003}
+#stage{position:relative;flex:none;height:var(--h,calc(var(--w) + 60px));margin-top:20px}
+#wheel{position:relative;width:var(--w);height:var(--w);margin:0 auto;border-radius:50%;background:#fffffff0;box-shadow:0 6px 24px #0003}
 #path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
 .letter{position:absolute;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800;color:#1a1a1a;transform:translate(-50%,-50%);z-index:2;pointer-events:none}
 .letter.on{background:#7c5cd6;color:#fff}
 #shuffleBtn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:none;z-index:3}
-.tool{position:absolute;top:28%;width:60px;height:60px;border-radius:50%;background:#5b4a4ae6;font-size:28px;color:#fff}
+.tool{position:absolute;bottom:0;width:60px;height:60px;border-radius:50%;background:#5b4a4ae6;font-size:28px;color:#fff}
 .tool u{position:absolute;top:-4px;right:-4px;min-width:24px;height:24px;border-radius:12px;background:#d62839;font:700 13px/24px system-ui;text-decoration:none}
 .tool.act{outline:3px solid #fff}
-#bonus{position:absolute;left:0;bottom:0;width:56px;height:56px;border-radius:50%;background:conic-gradient(#4ade80 calc(var(--p,0)*1%),#ffffff66 0);display:flex;align-items:center;justify-content:center}
+#bonus{position:absolute;left:2px;bottom:72px;width:56px;height:56px;border-radius:50%;background:conic-gradient(#4ade80 calc(var(--p,0)*1%),#ffffff66 0);display:flex;align-items:center;justify-content:center}
 #bonus span{width:44px;height:44px;border-radius:50%;background:#2b2f55;color:#fff;font:800 14px/44px system-ui;text-align:center}

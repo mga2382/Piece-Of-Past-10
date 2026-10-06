@@ -8,7 +8,7 @@ const mix=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.ran
 async function init(){
  try{const r=await fetch("data/levels.json");S.levels=(await r.json()).levels;
   try{Object.assign(S,JSON.parse(localStorage.getItem("pop10"))||{})}catch(e){}
-  if(!S.levels[S.i])S.i=0;load();addEventListener("resize",()=>{drawBoard();buildWheel()})}
+  if(!S.levels[S.i])S.i=0;load();addEventListener("resize",()=>{buildWheel();drawBoard()})}
  catch(e){msg("Seviyeler yüklenemedi: "+e.message)}}
 
 function load(){
@@ -18,7 +18,7 @@ function load(){
  S.found=new Set();S.bonus=new Set();S.cells=new Map();S.done=false;S.hm=false;
  S.words.forEach(o=>[...o.w].forEach((ch,k)=>{const key=(o.r+(o.d?k:0))+","+(o.c+(o.d?0:k));if(!S.cells.has(key))S.cells.set(key,{ch,on:false})}));
  S.letters=mix(L.letters);msg("");$("levelNumber").textContent=L.id;setBg(L.id);
- drawBoard();buildWheel();ui();save()}
+ buildWheel();drawBoard();ui();save()}
 
 function setBg(id){
  const t=S.bgT=(S.bgT||0)+1,tries=[`image/${id}.jpg`,`image/${id}.png`,`image/default.jpg`,`image/default.png`];
@@ -68,8 +68,10 @@ function ui(){
 
 // ---- Harf çarkı ----
 function buildWheel(){
- const W=Math.round(Math.min(innerWidth*.76,320));
+ const W=Math.round(Math.min(innerWidth*.72,300));
  $("app").style.setProperty("--w",W+"px");
+ const R=W/2,dx=($("app").clientWidth-28)/2-30,need=R+38;
+ $("app").style.setProperty("--h",Math.ceil(Math.max(2*R+12,R+100+Math.sqrt(Math.max(0,need*need-dx*dx))))+"px");
  cv.width=W*devicePixelRatio;cv.height=W*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
  wheel.querySelectorAll(".letter").forEach(e=>e.remove());
  const n=S.letters.length,rad=W*.34;S.pos=[];
