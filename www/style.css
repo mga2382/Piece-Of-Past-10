@@ -1,8 +1,9 @@
+:root{--sat:var(--safe-area-inset-top,env(safe-area-inset-top,0px));--sab:var(--safe-area-inset-bottom,env(safe-area-inset-bottom,0px))}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;font-family:system-ui,sans-serif;touch-action:none}
 body{background:linear-gradient(#8f94ea,#c4b2e8 45%,#f8cbb5);color:#1f2340}
 button{border:0;font:inherit;cursor:pointer}
-#app{height:100%;display:flex;flex-direction:column;padding:max(env(safe-area-inset-top),16px) 14px calc(env(safe-area-inset-bottom) + 14px)}
+#app{height:100%;display:flex;flex-direction:column;padding:max(var(--sat),16px) 14px calc(var(--sab) + 14px)}
 header{height:60px;display:flex;align-items:center;justify-content:space-between;flex:none}
 .pill{display:flex;align-items:center;justify-content:center;gap:8px;min-width:84px;height:38px;padding:0 14px;border-radius:19px;background:#2b2f55cc;color:#fff;font-size:17px}
 .coin{width:20px;height:20px;border-radius:50%;background:radial-gradient(#ffe27a,#f0a81c);border:2px solid #fff9}
@@ -29,14 +30,19 @@ header{height:60px;display:flex;align-items:center;justify-content:space-between
 #bonus span{width:44px;height:44px;border-radius:50%;background:#2b2f55;color:#fff;font:800 14px/44px system-ui;text-align:center}
 
 .hidden{display:none!important}
-.ov{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:max(env(safe-area-inset-top),16px) 20px calc(env(safe-area-inset-bottom) + 16px);text-align:center;color:#fff;background:#14162ce6;touch-action:manipulation}
+.ov{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:max(var(--sat),16px) 20px calc(var(--sab) + 16px);text-align:center;color:#fff;background:#14162ce6;touch-action:manipulation}
 .ov h2{margin:0;font-size:30px;line-height:1.25;letter-spacing:1px;text-shadow:0 2px 6px #0006}
 .big{padding:14px 40px;border-radius:999px;background:#7c5cd6;color:#fff;font-size:20px;font-weight:800;box-shadow:0 4px 14px #0004}
-#start{background:linear-gradient(#8f94ea,#c4b2e8 45%,#f8cbb5);gap:34px}
-#startImg{max-width:92%;max-height:64%;object-fit:contain}
-#startTitle{display:none;margin:0;font-size:36px;text-shadow:0 2px 8px #0006}
-#gwheel{position:relative;width:min(78vw,320px);aspect-ratio:1;border-radius:50%}
-#gwheel.nofile{background:conic-gradient(#f0a81c,#7c5cd6,#4ade80,#d62839,#f0a81c)}
-#gimg{width:100%;height:100%;display:block}
+#start{background:#01152e;padding:0;gap:0;justify-content:flex-end}
+/* oyun.png tüm ekranı kaplar (1080x2340 oranına yakın telefonlarda kırpma/esneme yok) */
+#startImg{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none}
+@media (min-aspect-ratio:11/20){#startImg{object-fit:cover}}
+#startTitle{display:none;position:relative;z-index:1;margin:auto 0;font-size:36px;text-shadow:0 2px 8px #0006}
+#startBtn{position:relative;z-index:1;margin-bottom:calc(var(--sab) + 6vh)}
+/* cark_ayak.png sabit, cark.png (sadece çark) dönüyor. Çark, dönme merkezi (göbek) kutunun ortasında olacak şekilde kırpıldı */
+#gwheel{position:relative;width:min(78vw,320px);aspect-ratio:1}
+#gwheel.nofile::before{content:"";position:absolute;left:6.462%;top:3.503%;width:87.109%;height:87.109%;border-radius:50%;background:conic-gradient(#f0a81c,#7c5cd6,#4ade80,#d62839,#f0a81c)}
+#gstand{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+#gimg{position:absolute;left:6.462%;top:3.503%;width:87.109%;height:87.109%;display:block;transform-origin:50% 50%;will-change:transform}
 #gptr{position:absolute;left:50%;top:-16px;transform:translateX(-50%);width:0;height:0;border:14px solid transparent;border-top:28px solid #fff;border-bottom:0;z-index:2;filter:drop-shadow(0 2px 3px #0008)}
 #giftRes{min-height:30px;font-size:22px;font-weight:800;color:#ffe27a}

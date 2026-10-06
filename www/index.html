@@ -1,6 +1,7 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#8f94ea"><title>PIECE OF PAST 10</title>
+<meta name="theme-color" content="#01152e">
+<link rel="preload" as="image" href="assets/oyun.png"><title>PIECE OF PAST 10</title>
 <link rel="stylesheet" href="style.css"></head><body>
 <main id="app">
 <header>
@@ -21,13 +22,13 @@
 </section>
 </main>
 <div id="start" class="ov">
-<img id="startImg" src="assets/oyun.png" alt="" onerror="this.style.display='none';document.getElementById('startTitle').style.display='block'">
+<img id="startImg" src="assets/oyun.png" alt="" decoding="sync" onerror="this.style.display='none';document.getElementById('startTitle').style.display='block'">
 <h1 id="startTitle">PIECE OF PAST 10</h1>
 <button id="startBtn" class="big">BAŞLAT</button>
 </div>
 <div id="gift" class="ov hidden">
 <h2>GÜNLÜK HEDİYE</h2>
-<div id="gwheel"><i id="gptr"></i><img id="gimg" src="assets/cark.png" width="512" height="512" alt="" onerror="this.style.display='none';this.parentNode.classList.add('nofile')"></div>
+<div id="gwheel"><img id="gstand" src="assets/cark_ayak.png" alt="" onerror="this.style.display='none'"><img id="gimg" src="assets/cark.png" alt="" decoding="async" onerror="this.style.display='none';this.parentNode.classList.add('nofile')"><i id="gptr"></i></div>
 <div id="giftRes"></div>
 <button id="spinBtn" class="big">ÇEVİR</button>
 <button id="giftClose" class="big" style="display:none">TAMAM</button>
