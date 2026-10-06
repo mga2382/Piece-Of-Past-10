@@ -6,7 +6,8 @@ const save=()=>{try{
  if(L&&S.cells.size)S.P[L.id]={on:[...S.cells].filter(([k,c])=>c.on).map(([k])=>k),found:[...S.found],bonus:[...S.bonus],letters:S.letters,done:S.done};
  localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,gd:S.gd,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
 const msg=t=>{$("msg").textContent=t};
-const SND={ses:new Audio("assets/ses.mp3"),cark:new Audio("assets/cark.mp3")};
+const SND={ses:new Audio("assets/ses.mp3"),cark:new Audio("assets/cark.mp3"),reward:new Audio("assets/reward.mp3")};
+SND.reward.preload="auto";
 let VOL=1;try{const v=parseFloat(localStorage.getItem("pop10vol"));if(v>=0&&v<=1)VOL=v}catch(e){}
 const snd=k=>{try{if(VOL<=0)return;const a=SND[k];a.volume=VOL;a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
 const mix=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
@@ -159,7 +160,8 @@ $("spinBtn").onclick=()=>{
  w.style.transition="transform 4.2s cubic-bezier(.17,.67,.12,1)";
  w.style.transform="rotate("+(360*6-k*seg+(Math.random()-.5)*seg*.6)+"deg)";
  $("spinBtn").style.display="none";snd("cark");
- setTimeout(()=>{spinning=false;$("giftRes").textContent="+"+v+" altın kazandın!";$("giftClose").style.display="";ui()},4400)};
+ setTimeout(()=>{spinning=false;$("giftRes").textContent="+"+v+" altın kazandın!";$("giftClose").style.display="";ui();
+  try{SND.cark.pause()}catch(e){}snd("reward")},4400)};
 $("giftClose").onclick=()=>{try{SND.cark.pause()}catch(e){}
  $("gift").classList.add("hidden");if(ended())showEnd()};
 
