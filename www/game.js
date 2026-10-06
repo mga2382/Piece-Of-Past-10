@@ -17,8 +17,15 @@ function load(){
  S.all=new Set(all);S.words=lay.words;S.rows=lay.rows;S.cols=lay.cols;
  S.found=new Set();S.bonus=new Set();S.cells=new Map();S.done=false;S.hm=false;
  S.words.forEach(o=>[...o.w].forEach((ch,k)=>{const key=(o.r+(o.d?k:0))+","+(o.c+(o.d?0:k));if(!S.cells.has(key))S.cells.set(key,{ch,on:false})}));
- S.letters=mix(L.letters);msg("");$("levelNumber").textContent=L.id;
+ S.letters=mix(L.letters);msg("");$("levelNumber").textContent=L.id;setBg(L.id);
  drawBoard();buildWheel();ui();save()}
+
+function setBg(id){
+ const t=S.bgT=(S.bgT||0)+1,tries=[`image/${id}.jpg`,`image/${id}.png`,`image/default.jpg`,`image/default.png`];
+ document.body.style.background="";
+ const next=()=>{const u=tries.shift();if(!u||t!==S.bgT)return;
+  const im=new Image();im.onload=()=>{if(t===S.bgT)document.body.style.background=`url(${u}) center/cover no-repeat`};im.onerror=next;im.src=u};
+ next()}
 
 function drawBoard(){
  const b=$("board");b.innerHTML="";b.classList.toggle("pick",S.hm);
