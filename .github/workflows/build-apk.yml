@@ -130,6 +130,13 @@ jobs:
               if "SplashScreen" in head:
                   add += '\n        <item name="windowSplashScreenBackground">#01152e</item>\n        <item name="windowSplashScreenAnimatedIcon">@drawable/pop_blank</item>'
               s = s.replace(blk, head + inner + add + "\n    </style>")
+              m2 = re.search(r'<style\s+name="AppTheme\.NoActionBar"[^>]*>.*?</style>', s, re.S)
+              if m2:
+                  b2 = m2.group(0)
+                  b2n = re.sub(r'\s*<item name="android:windowBackground">.*?</item>', "", b2, flags=re.S)
+                  b2n = b2n[:-len("</style>")] + '    <item name="android:windowBackground">@drawable/pop_launch</item>\n    </style>'
+                  s = s.replace(b2, b2n)
+              s = s.replace('<style name="AppTheme.NoActionBarLaunch"', '<style name="AppTheme.NoActionBarLaunch"')
               open(p, "w", encoding="utf-8").write(s)
               print("launch temasi guncellendi")
           else:
@@ -143,30 +150,72 @@ jobs:
           cat > "$MAIN" <<'EOF'
           package com.pieceofpast10.game;
 
-          import android.graphics.Color;
           import android.os.Build;
           import android.os.Bundle;
+          import android.os.Handler;
+          import android.os.Looper;
+          import android.view.View;
+          import android.view.ViewGroup;
           import android.view.WindowManager;
+          import android.webkit.WebView;
           import androidx.core.view.WindowCompat;
           import androidx.core.view.WindowInsetsCompat;
           import androidx.core.view.WindowInsetsControllerCompat;
           import com.getcapacitor.BridgeActivity;
 
           public class MainActivity extends BridgeActivity {
+              private View cover;
+              private long startMs;
+              private final Handler handler = new Handler(Looper.getMainLooper());
+
               @Override
               public void onCreate(Bundle savedInstanceState) {
                   super.onCreate(savedInstanceState);
                   getWindow().setBackgroundDrawableResource(R.drawable.pop_launch);
-                  if (getBridge() != null && getBridge().getWebView() != null) {
-                      getBridge().getWebView().setBackgroundColor(Color.TRANSPARENT);
-                  }
                   if (Build.VERSION.SDK_INT >= 28) {
                       WindowManager.LayoutParams lp = getWindow().getAttributes();
                       lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
                       getWindow().setAttributes(lp);
                   }
                   hideSystemBars();
+
+                  // Web sayfa hazir olana kadar oyun.png'yi native olarak goster (gri/bos ekran olmasin)
+                  startMs = System.currentTimeMillis();
+                  cover = new View(this);
+                  cover.setBackgroundResource(R.drawable.pop_launch);
+                  addContentView(cover, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                  handler.postDelayed(checkReady, 100);
               }
+
+              private final Runnable checkReady = new Runnable() {
+                  @Override
+                  public void run() {
+                      long el = System.currentTimeMillis() - startMs;
+                      WebView wv = getBridge() != null ? getBridge().getWebView() : null;
+                      boolean ready = wv != null && wv.getProgress() >= 100 && wv.getContentHeight() > 0;
+                      if ((ready && el > 500) || el > 6000) {
+                          handler.postDelayed(hideCover, 350);
+                      } else {
+                          handler.postDelayed(this, 100);
+                      }
+                  }
+              };
+
+              private final Runnable hideCover = new Runnable() {
+                  @Override
+                  public void run() {
+                      final View c = cover;
+                      if (c == null) return;
+                      cover = null;
+                      c.animate().alpha(0f).setDuration(200).withEndAction(new Runnable() {
+                          @Override
+                          public void run() {
+                              ViewGroup parent = (ViewGroup) c.getParent();
+                              if (parent != null) parent.removeView(c);
+                          }
+                      }).start();
+                  }
+              };
 
               @Override
               public void onWindowFocusChanged(boolean hasFocus) {
@@ -183,14 +232,53 @@ jobs:
           }
           EOF
 
-      - name: Build APK
+      - name: Restore cached signing key
+        uses: actions/cache@v4
+        with:
+          path: release.keystore
+          key: pop10-release-keystore-v1
+
+      - name: Build release APK (unsigned)
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleRelease
+
+      - name: Sign and align release APK
+        env:
+          KS_B64: ${{ secrets.KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.KEYSTORE_PASSWORD }}
+          KS_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -e
+          if [ -n "$KS_B64" ]; then
+            # Tercih edilen yol: GitHub Secrets'taki kendi anahtarin
+            echo "$KS_B64" | base64 -d > secret.keystore
+            KS_FILE=secret.keystore; ALIAS="${KS_ALIAS:-key0}"; SPASS="$KS_PASS"; KPASS="${KEY_PASS:-$KS_PASS}"
+            echo "Secrets'taki imza anahtari kullaniliyor"
+          else
+            # Secrets yoksa: anahtari bir kez uret, onbellekte sakla (her build ayni imza olsun, ustune guncelleme kurulabilsin)
+            KS_FILE=release.keystore; ALIAS=pop10; SPASS=pop10release; KPASS=pop10release
+            if [ ! -f "$KS_FILE" ]; then
+              keytool -genkeypair -keystore "$KS_FILE" -storetype PKCS12 -alias "$ALIAS" -keyalg RSA -keysize 2048 -validity 10000 \
+                -storepass "$SPASS" -keypass "$KPASS" -dname "CN=Piece of Past 10, OU=Game, O=POP10, C=TR"
+              echo "Yeni imza anahtari uretildi"
+            else
+              echo "Onbellekteki imza anahtari kullaniliyor"
+            fi
+          fi
+          OUT=android/app/build/outputs/apk/release
+          UNS=$(find "$OUT" -name '*-unsigned.apk' | head -n 1)
+          if [ -z "$UNS" ]; then echo "unsigned release apk bulunamadi"; ls -R "$OUT"; exit 1; fi
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          "$BT/zipalign" -f -p 4 "$UNS" "$OUT/aligned.apk"
+          "$BT/apksigner" sign --ks "$KS_FILE" --ks-key-alias "$ALIAS" --ks-pass "pass:$SPASS" --key-pass "pass:$KPASS" \
+            --out "$OUT/piece-of-past-10-release.apk" "$OUT/aligned.apk"
+          "$BT/apksigner" verify --verbose "$OUT/piece-of-past-10-release.apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: piece-of-past-10-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: piece-of-past-10-release-apk
+          path: android/app/build/outputs/apk/release/piece-of-past-10-release.apk
