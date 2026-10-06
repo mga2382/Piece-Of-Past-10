@@ -1,88 +1,24 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, user-scalable=no"
-  >
-
-  <meta name="theme-color" content="#111827">
-
-  <title>PIECE OF PAST 10</title>
-
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#8f94ea"><title>PIECE OF PAST 10</title>
+<link rel="stylesheet" href="style.css"></head><body>
 <main id="app">
-
-  <header>
-    <b>PIECE OF PAST 10</b>
-
-    <span>
-      BÖLÜM
-      <strong id="levelNumber">1</strong>
-    </span>
-  </header>
-
-  <div class="progress">
-
-    <span id="progressText">
-      0 / 20
-    </span>
-
-    <i>
-      <em id="progressFill"></em>
-    </i>
-
-  </div>
-
-  <section id="wordBoard"></section>
-
-  <section class="game">
-
-    <div id="formedWord">
-      &nbsp;
-    </div>
-
-    <canvas id="pathCanvas"></canvas>
-
-    <div id="letterCircle"></div>
-
-    <div class="controls">
-
-      <button id="shuffleBtn">
-        KARIŞTIR
-      </button>
-
-      <button id="clearBtn">
-        TEMİZLE
-      </button>
-
-    </div>
-
-  </section>
-
-  <div id="message"></div>
-
-  <nav>
-
-    <button id="prevBtn">
-      ‹
-    </button>
-
-    <button id="nextBtn">
-      ›
-    </button>
-
-  </nav>
-
+<header>
+<div class="pill"><i class="coin"></i><b id="coins">0</b></div>
+<div class="lvl"><button id="prevBtn">‹</button><span>BÖLÜM <b id="levelNumber">1</b></span><button id="nextBtn">›</button></div>
+<div class="pill"><b id="progressText">0/0</b></div>
+</header>
+<section id="board"></section>
+<div id="msg"></div>
+<div id="preview"></div>
+<section id="stage">
+<button class="tool" id="hammerBtn" style="left:0">🔨<u id="hammerN">5</u></button>
+<button class="tool" id="hintBtn" style="right:0">💡<u id="hintN">10</u></button>
+<div id="bonus"><span id="bonusN">0</span></div>
+<div id="wheel"><canvas id="path"></canvas>
+<button id="shuffleBtn" aria-label="Karıştır"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3c5 0 7 12 12 12h3M3 18h3c1.5 0 2.7-.8 3.7-2M14 8c1-1.2 2.2-2 4-2h3M18 3l3 3-3 3M18 15l3 3-3 3"/></svg></button>
+</div>
+</section>
 </main>
-
-<script src="game.js"></script>
-
-</body>
-</html>
+<script src="layout.js"></script><script src="game.js"></script>
+</body></html>
