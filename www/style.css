@@ -2,7 +2,7 @@
 html,body{margin:0;height:100%;overflow:hidden;font-family:system-ui,sans-serif;touch-action:none}
 body{background:linear-gradient(#8f94ea,#c4b2e8 45%,#f8cbb5);color:#1f2340}
 button{border:0;font:inherit;cursor:pointer}
-#app{height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 14px calc(env(safe-area-inset-bottom) + 14px)}
+#app{height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 14px calc(max(env(safe-area-inset-bottom),28px) + 14px)}
 header{height:60px;display:flex;align-items:center;justify-content:space-between;flex:none}
 .pill{display:flex;align-items:center;justify-content:center;gap:8px;min-width:84px;height:38px;padding:0 14px;border-radius:19px;background:#2b2f55cc;color:#fff;font-size:17px}
 .coin{width:20px;height:20px;border-radius:50%;background:radial-gradient(#ffe27a,#f0a81c);border:2px solid #fff9}
