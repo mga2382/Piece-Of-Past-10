@@ -8,6 +8,7 @@
 <div class="pill"><i class="coin"></i><b id="coins">0</b></div>
 <div class="lvl"><button id="prevBtn">‹</button><span>BÖLÜM <b id="levelNumber">1</b></span><button id="nextBtn">›</button></div>
 <div class="pill"><b id="progressText">0/0</b></div>
+<button id="settingsBtn" aria-label="Ayarlar">⚙️</button>
 </header>
 <section id="board"></section>
 <div id="msg"></div>
@@ -32,6 +33,11 @@
 <div id="giftRes"></div>
 <button id="spinBtn" class="big">ÇEVİR</button>
 <button id="giftClose" class="big" style="display:none">TAMAM</button>
+</div>
+<div id="settings" class="ov hidden">
+<h2>AYARLAR</h2>
+<div id="volBox"><button id="volIcon" aria-label="Sesi aç/kapat">🔊</button><input id="volRange" type="range" min="0" max="100" step="1" value="100" aria-label="Ses"><b id="volVal">100%</b></div>
+<button id="settingsClose" class="big">TAMAM</button>
 </div>
 <div id="end" class="ov hidden">
 <h2>TEBRİKLER<br>OYUN BİTTİ</h2>

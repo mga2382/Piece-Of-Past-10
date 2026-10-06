@@ -7,7 +7,8 @@ const save=()=>{try{
  localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,gd:S.gd,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
 const msg=t=>{$("msg").textContent=t};
 const SND={ses:new Audio("assets/ses.mp3"),cark:new Audio("assets/cark.mp3")};
-const snd=k=>{try{const a=SND[k];a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
+let VOL=1;try{const v=parseFloat(localStorage.getItem("pop10vol"));if(v>=0&&v<=1)VOL=v}catch(e){}
+const snd=k=>{try{if(VOL<=0)return;const a=SND[k];a.volume=VOL;a.currentTime=0;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}};
 const mix=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 
 async function init(){
@@ -168,5 +169,20 @@ function showEnd(){$("end").classList.remove("hidden")}
 $("replayBtn").onclick=()=>{
  S.coins=0;S.hint=10;S.hammer=5;S.u=0;S.i=0;S.P={};
  $("end").classList.add("hidden");load()};
+
+// ---- Ayarlar (⚙️): ses seviyesi ----
+const volRange=$("volRange");let lastVol=VOL>0?VOL:1;
+Object.values(SND).forEach(a=>{try{a.volume=VOL}catch(e){}});
+function paintVol(){const p=Math.round(VOL*100);volRange.value=p;volRange.style.setProperty("--v",p+"%");
+ $("volVal").textContent=p+"%";$("volIcon").textContent=VOL<=0?"🔇":VOL<.5?"🔉":"🔊"}
+function setVol(v){VOL=Math.max(0,Math.min(1,v));if(VOL>0)lastVol=VOL;
+ Object.values(SND).forEach(a=>{try{a.volume=VOL}catch(e){}});
+ try{localStorage.setItem("pop10vol",String(VOL))}catch(e){}paintVol()}
+volRange.oninput=()=>setVol(volRange.value/100);
+volRange.onchange=()=>snd("ses");
+$("volIcon").onclick=()=>{setVol(VOL>0?0:lastVol);snd("ses")};
+$("settingsBtn").onclick=()=>{S.drag=false;S.sel=[];paint();paintVol();$("settings").classList.remove("hidden")};
+$("settingsClose").onclick=()=>$("settings").classList.add("hidden");
+paintVol();
 
 init();
