@@ -31,6 +31,18 @@ jobs:
       - name: Build web app
         run: npm run build --if-present
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Copy assets into www
+        run: |
+          if [ -d assets ]; then
+            mkdir -p www/assets
+            cp -r assets/. www/assets/
+          fi
+
       - name: Add Android platform
         run: |
           if [ ! -d android ]; then
@@ -39,6 +51,81 @@ jobs:
 
       - name: Sync Capacitor
         run: npx cap sync android
+
+      - name: Generate app icon
+        run: |
+          pip install pillow
+          python3 - <<'PY'
+          import os
+          from PIL import Image, ImageDraw
+          src = next((p for p in ("android-icons/play-store-icon-512.png", "www/android-icons/play-store-icon-512.png") if os.path.exists(p)), None)
+          if not src:
+              print("play-store-icon-512.png bulunamadi, varsayilan ikon kalacak")
+              raise SystemExit
+          res = "android/app/src/main/res"
+          im = Image.open(src).convert("RGBA")
+          px = im.getpixel((2, 2))
+          bg = ("#%02x%02x%02x" % px[:3]) if px[3] > 128 else "#FFFFFF"
+          for d, s in {"mdpi": 48, "hdpi": 72, "xhdpi": 96, "xxhdpi": 144, "xxxhdpi": 192}.items():
+              o = f"{res}/mipmap-{d}"
+              os.makedirs(o, exist_ok=True)
+              a = im.resize((s, s), Image.LANCZOS)
+              a.save(f"{o}/ic_launcher.png")
+              m = Image.new("L", (s * 4, s * 4), 0)
+              ImageDraw.Draw(m).ellipse((0, 0, s * 4 - 1, s * 4 - 1), fill=255)
+              r = a.copy()
+              r.putalpha(m.resize((s, s), Image.LANCZOS))
+              r.save(f"{o}/ic_launcher_round.png")
+              f = s * 108 // 48
+              k = f * 62 // 100
+              c = Image.new("RGBA", (f, f), (0, 0, 0, 0))
+              c.paste(im.resize((k, k), Image.LANCZOS), ((f - k) // 2, (f - k) // 2))
+              c.save(f"{o}/ic_launcher_foreground.png")
+          os.makedirs(f"{res}/values", exist_ok=True)
+          open(f"{res}/values/pop_icon_bg.xml", "w").write(f'<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="pop_icon_bg">{bg}</color>\n</resources>\n')
+          os.makedirs(f"{res}/mipmap-anydpi-v26", exist_ok=True)
+          xml = '<?xml version="1.0" encoding="utf-8"?>\n<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n    <background android:drawable="@color/pop_icon_bg"/>\n    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>\n</adaptive-icon>\n'
+          for n in ("ic_launcher", "ic_launcher_round"):
+              open(f"{res}/mipmap-anydpi-v26/{n}.xml", "w").write(xml)
+          print("ikon olusturuldu:", src)
+          PY
+
+      - name: Remove Capacitor splash logo
+        run: |
+          python3 - <<'PY2'
+          import glob, os, re
+          from PIL import Image
+          res = "android/app/src/main/res"
+          os.makedirs(f"{res}/drawable", exist_ok=True)
+          open(f"{res}/drawable/pop_launch.xml", "w").write('<?xml version="1.0" encoding="utf-8"?>\n<shape xmlns:android="http://schemas.android.com/apk/res/android">\n    <gradient android:angle="270" android:startColor="#8f94ea" android:centerColor="#c4b2e8" android:endColor="#f8cbb5"/>\n</shape>\n')
+          open(f"{res}/drawable/pop_blank.xml", "w").write('<?xml version="1.0" encoding="utf-8"?>\n<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">\n    <solid android:color="#00000000"/>\n    <size android:width="24dp" android:height="24dp"/>\n</shape>\n')
+          top, mid, bot = (0x8f, 0x94, 0xea), (0xc4, 0xb2, 0xe8), (0xf8, 0xcb, 0xb5)
+          g = Image.new("RGB", (1, 256))
+          for y in range(256):
+              t = y / 255
+              a, b, u = (top, mid, t / .45) if t < .45 else (mid, bot, (t - .45) / .55)
+              g.putpixel((0, y), tuple(int(a[i] + (b[i] - a[i]) * u) for i in range(3)))
+          for f in glob.glob(f"{res}/**/splash.png", recursive=True):
+              w, h = Image.open(f).size
+              g.resize((w, h)).save(f)
+              print("splash.png degistirildi:", f)
+          p = f"{res}/values/styles.xml"
+          s = open(p, encoding="utf-8").read()
+          m = re.search(r'<style\s+name="AppTheme\.NoActionBarLaunch"[^>]*>.*?</style>', s, re.S)
+          if m:
+              blk = m.group(0)
+              head = re.match(r"<style[^>]*>", blk).group(0)
+              inner = blk[len(head):-len("</style>")]
+              inner = re.sub(r'\s*<item name="(android:background|windowSplashScreenBackground|windowSplashScreenAnimatedIcon|windowSplashScreenIconBackgroundColor)">.*?</item>', "", inner, flags=re.S)
+              add = '\n        <item name="android:background">@drawable/pop_launch</item>'
+              if "SplashScreen" in head:
+                  add += '\n        <item name="windowSplashScreenBackground">#8f94ea</item>\n        <item name="windowSplashScreenAnimatedIcon">@drawable/pop_blank</item>'
+              s = s.replace(blk, head + inner + add + "\n    </style>")
+              open(p, "w", encoding="utf-8").write(s)
+              print("launch temasi guncellendi")
+          else:
+              print("UYARI: AppTheme.NoActionBarLaunch bulunamadi")
+          PY2
 
       - name: Fullscreen (hide status and navigation bars)
         run: |
