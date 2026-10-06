@@ -1,0 +1,277 @@
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #334155,
+      #111827 58%,
+      #020617
+    );
+
+  color: #fff;
+
+  touch-action: none;
+}
+
+#app {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    env(safe-area-inset-top)
+    16px
+    env(safe-area-inset-bottom);
+}
+
+header {
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-size: 14px;
+}
+
+header span {
+  background: #ffffff18;
+
+  padding: 8px 12px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+}
+
+.progress {
+  display: flex;
+
+  gap: 10px;
+
+  align-items: center;
+
+  font-size: 12px;
+
+  color: #cbd5e1;
+}
+
+.progress i {
+  flex: 1;
+
+  height: 6px;
+
+  background: #ffffff1c;
+
+  border-radius: 9px;
+
+  overflow: hidden;
+}
+
+.progress em {
+  display: block;
+
+  width: 0;
+
+  height: 100%;
+
+  background: #fff;
+
+  transition: 0.2s;
+}
+
+#wordBoard {
+  flex: 0 0 40%;
+
+  overflow: auto;
+
+  padding: 10px 0;
+}
+
+.row {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  margin: 6px;
+}
+
+.slot {
+  width: 30px;
+
+  height: 34px;
+
+  border-bottom:
+    2px solid #ffffff80;
+
+  text-align: center;
+
+  padding-top: 5px;
+
+  font-size: 17px;
+
+  font-weight: 800;
+}
+
+.game {
+  position: relative;
+
+  flex: 1;
+
+  min-height: 280px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.game > #formedWord {
+  height: 34px;
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+
+  z-index: 3;
+}
+
+#letterCircle {
+  position: relative;
+
+  width: min(74vw, 330px);
+
+  height: min(74vw, 330px);
+}
+
+.letter {
+  position: absolute;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff20;
+
+  border: 2px solid #ffffff40;
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 3;
+}
+
+.letter.active {
+  background: #fff;
+
+  color: #0f172a;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.08);
+}
+
+#pathCanvas {
+  position: absolute;
+
+  inset: 38px 0 45px;
+
+  width: 100%;
+
+  height: calc(100% - 83px);
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+
+  gap: 10px;
+
+  z-index: 4;
+}
+
+.controls button,
+nav button {
+  border: 0;
+
+  color: #fff;
+
+  background: #ffffff18;
+
+  border-radius: 12px;
+
+  padding: 9px 14px;
+
+  font-weight: 800;
+
+  font-size: 11px;
+}
+
+#message {
+  height: 24px;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  color: #cbd5e1;
+}
+
+nav {
+  height: 46px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+nav button {
+  width: 46px;
+
+  font-size: 24px;
+
+  padding: 4px;
+}
