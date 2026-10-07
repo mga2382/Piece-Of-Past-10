@@ -16,7 +16,7 @@
 <section id="stage">
 <button class="tool" id="hammerBtn" style="left:0">🔨<u id="hammerN">5</u></button>
 <button class="tool" id="hintBtn" style="right:0">💡<u id="hintN">10</u></button>
-<div id="bonus"><span id="bonusN">0</span></div>
+<button id="bonus" aria-label="Ekstra kelimeler"><span id="bonusN">0/10</span></button>
 <div id="wheel"><canvas id="path"></canvas>
 <button id="shuffleBtn" aria-label="Karıştır"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3c5 0 7 12 12 12h3M3 18h3c1.5 0 2.7-.8 3.7-2M14 8c1-1.2 2.2-2 4-2h3M18 3l3 3-3 3M18 15l3 3-3 3"/></svg></button>
 </div>
@@ -38,6 +38,15 @@
 <h2>AYARLAR</h2>
 <div id="volBox"><button id="volIcon" aria-label="Sesi aç/kapat">🔊</button><input id="volRange" type="range" min="0" max="100" step="1" value="100" aria-label="Ses"><b id="volVal">100%</b></div>
 <button id="settingsClose" class="big">TAMAM</button>
+</div>
+<div id="bonusPanel" class="ov hidden">
+<h2>EKSTRA KELİMELER</h2>
+<div id="xSub">Haritada olmayan her sözlük kelimesi +10 altın. 10 kelimeye ulaşınca +100 altın ödül!</div>
+<div id="xInfo"></div>
+<div id="xBar"><i></i></div>
+<div id="xList"></div>
+<button id="xClaim" class="big hidden">ÖDÜLÜ AL +100</button>
+<button id="xClose" class="big">TAMAM</button>
 </div>
 <div id="end" class="ov hidden">
 <h2>TEBRİKLER<br>OYUN BİTTİ</h2>

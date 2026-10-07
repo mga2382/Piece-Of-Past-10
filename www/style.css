@@ -27,8 +27,11 @@ header{height:60px;display:flex;align-items:center;justify-content:space-between
 .tool{position:absolute;bottom:0;width:60px;height:60px;border-radius:50%;background:#5b4a4ae6;font-size:28px;color:#fff}
 .tool u{position:absolute;top:-4px;right:-4px;min-width:24px;height:24px;border-radius:12px;background:#d62839;font:700 13px/24px system-ui;text-decoration:none}
 .tool.act{outline:3px solid #fff}
-#bonus{position:absolute;left:2px;bottom:72px;width:56px;height:56px;border-radius:50%;background:conic-gradient(#4ade80 calc(var(--p,0)*1%),#ffffff66 0);display:flex;align-items:center;justify-content:center}
-#bonus span{width:44px;height:44px;border-radius:50%;background:#2b2f55;color:#fff;font:800 14px/44px system-ui;text-align:center}
+#bonus{position:absolute;left:2px;bottom:72px;width:56px;height:56px;border-radius:50%;background:conic-gradient(#4ade80 calc(var(--p,0)*1%),#ffffff66 0);display:flex;align-items:center;justify-content:center;padding:0;z-index:3}
+#bonus.rdy{animation:glow 1.2s infinite}
+#bonus.rdy::after{content:"🎁";position:absolute;top:-10px;right:-8px;font-size:20px}
+@keyframes glow{0%{box-shadow:0 0 0 0 #4ade80cc}100%{box-shadow:0 0 0 14px #4ade8000}}
+#bonus span{width:44px;height:44px;border-radius:50%;background:#2b2f55;color:#fff;font:800 12px/44px system-ui;text-align:center}
 
 .hidden{display:none!important}
 .ov{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:max(var(--sat),16px) 20px calc(var(--sab) + 16px);text-align:center;color:#fff;background:#14162ce6;touch-action:manipulation}
@@ -54,3 +57,17 @@ header{height:60px;display:flex;align-items:center;justify-content:space-between
 #volRange{flex:1;min-width:0;height:44px;margin:0;padding:0;background:transparent;-webkit-appearance:none;appearance:none}
 #volRange::-webkit-slider-runnable-track{height:10px;border-radius:5px;background:linear-gradient(90deg,#7c5cd6 var(--v,100%),#ffffff40 var(--v,100%))}
 #volRange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:32px;height:32px;margin-top:-11px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 8px #0006}
+
+/* ---- Bonus alanı (ekstra kelimeler) ---- */
+#bonusPanel{z-index:55;justify-content:flex-start;gap:12px;padding-top:max(var(--sat),24px);background:#14162cf7}
+#xSub{max-width:min(88vw,380px);font-size:14px;line-height:1.35;opacity:.85}
+#xInfo{min-height:24px;font-size:18px;font-weight:800;color:#ffe27a}
+#xBar{flex:none;width:min(88vw,380px);height:12px;border-radius:6px;background:#ffffff33;overflow:hidden}
+#xBar i{display:block;height:100%;width:0;border-radius:6px;background:#4ade80;transition:width .3s}
+#xList{flex:1 1 0;min-height:0;width:min(92vw,420px);overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:8px;text-align:left}
+.xrow{flex:none;display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:14px;background:#ffffff1f}
+.xtxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.xtxt b{font-size:18px;letter-spacing:1px}
+.xtxt span{font-size:14px;line-height:1.35;opacity:.92}
+.xtag{flex:none;padding:2px 8px;border-radius:10px;background:#f0a81c;color:#2b2f55;font-style:normal;font-weight:800;font-size:13px}
+#xEmpty{padding:24px 12px;text-align:center;font-size:15px;opacity:.8}
