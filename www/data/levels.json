@@ -1,466 +1,1043 @@
 {
-  "levels": [
-    {
-      "id": 1,
-      "mainWord": "MANTIK",
-      "letters": [
-        "M",
-        "A",
-        "N",
-        "T",
-        "I",
-        "K"
-      ],
-      "words": {
-        "3": [
-          "TAM",
-          "KAT",
-          "ANI",
-          "TAN",
-          "ANT",
-          "MAT",
-          "KIT"
-        ],
-        "4": [
-          "KATI",
-          "KITA",
-          "TAKI",
-          "ATKI",
-          "ATIK",
-          "AKIN",
-          "TANI"
-        ],
-        "5": [
-          "MANTI",
-          "TANIK",
-          "KANIT",
-          "TANIM",
-          "TAKIM"
-        ],
-        "6": [
-          "MANTIK"
-        ]
-      }
-    },
-    {
-      "id": 2,
-      "mainWord": "KARTAL",
-      "letters": [
-        "K",
-        "A",
-        "R",
-        "T",
-        "A",
-        "L"
-      ],
-      "words": {
-        "3": [
-          "KAR",
-          "KAT",
-          "ALT",
-          "ATA",
-          "ALA",
-          "ARA",
-          "ARK"
-        ],
-        "4": [
-          "KRAL",
-          "KARA",
-          "TAKA",
-          "ARKA",
-          "KART",
-          "ATAK",
-          "LATA"
-        ],
-        "5": [
-          "TARAK",
-          "AKTAR",
-          "TARLA",
-          "TAKLA",
-          "KARAT"
-        ],
-        "6": [
-          "KARTAL"
-        ]
-      }
-    },
-    {
-      "id": 3,
-      "mainWord": "TERLİK",
-      "letters": [
-        "T",
-        "E",
-        "R",
-        "L",
-        "İ",
-        "K"
-      ],
-      "words": {
-        "3": [
-          "TER",
-          "TEK",
-          "TEL",
-          "TİK",
-          "KİR",
-          "İLK",
-          "KİL"
-        ],
-        "4": [
-          "TERK",
-          "ELİT",
-          "ETKİ",
-          "ERİL",
-          "TİKE",
-          "ERİK",
-          "ETİK"
-        ],
-        "5": [
-          "TEKİL",
-          "TEKLİ",
-          "TERLİ",
-          "KİTLE",
-          "LİTRE"
-        ],
-        "6": [
-          "TERLİK"
-        ]
-      }
-    },
-    {
-      "id": 4,
-      "mainWord": "TELKİN",
-      "letters": [
-        "T",
-        "E",
-        "L",
-        "K",
-        "İ",
-        "N"
-      ],
-      "words": {
-        "3": [
-          "TEK",
-          "TEL",
-          "TEN",
-          "NET",
-          "KİN",
-          "TİK",
-          "KEL"
-        ],
-        "4": [
-          "EKİN",
-          "ENİK",
-          "İNEK",
-          "ETİK",
-          "ETKİ",
-          "İLKE",
-          "ETLİ"
-        ],
-        "5": [
-          "TEKİL",
-          "TEKLİ",
-          "KİTLE",
-          "TEKİN",
-          "ETKİN"
-        ],
-        "6": [
-          "TELKİN"
-        ]
-      }
-    },
-    {
-      "id": 5,
-      "mainWord": "PARMAK",
-      "letters": [
-        "P",
-        "A",
-        "R",
-        "M",
-        "A",
-        "K"
-      ],
-      "words": {
-        "3": [
-          "KAR",
-          "ARA",
-          "AMA",
-          "KAP",
-          "ARP",
-          "ARK",
-          "RAP"
-        ],
-        "4": [
-          "PARK",
-          "PARA",
-          "ARMA",
-          "KARA",
-          "KAMA",
-          "ARKA",
-          "KAMP"
-        ],
-        "5": [
-          "KARMA",
-          "RAMAK",
-          "PARKA",
-          "MARKA",
-          "RAKAM"
-        ],
-        "6": [
-          "PARMAK"
-        ]
-      }
-    },
-    {
-      "id": 6,
-      "mainWord": "KAMERA",
-      "letters": [
-        "K",
-        "A",
-        "M",
-        "E",
-        "R",
-        "A"
-      ],
-      "words": {
-        "3": [
-          "KAR",
-          "ARK",
-          "KEM",
-          "ARA",
-          "ERK"
-        ],
-        "4": [
-          "KARA",
-          "KARE",
-          "ARKA",
-          "MERA",
-          "ARMA",
-          "KAMA",
-          "KREM"
-        ],
-        "5": [
-          "MERAK",
-          "KAMER",
-          "RAMAK",
-          "KARMA",
-          "RAKAM",
-          "KREMA",
-          "MARKA"
-        ],
-        "6": [
-          "KAMERA"
-        ]
-      }
-    },
-    {
-      "id": 7,
-      "mainWord": "MAKALE",
-      "letters": [
-        "M",
-        "A",
-        "K",
-        "A",
-        "L",
-        "E"
-      ],
-      "words": {
-        "3": [
-          "KEL",
-          "AMA",
-          "ALA",
-          "KEM",
-          "MAL",
-          "ELA",
-          "KAM"
-        ],
-        "4": [
-          "KALE",
-          "ELMA",
-          "ALEM",
-          "KAMA",
-          "LAMA",
-          "MALA",
-          "AMEL"
-        ],
-        "5": [
-          "MALAK",
-          "KALEM",
-          "ALMAK",
-          "KELAM",
-          "EMLAK"
-        ],
-        "6": [
-          "MAKALE"
-        ]
-      }
-    },
-    {
-      "id": 8,
-      "mainWord": "ETKİLİ",
-      "letters": [
-        "E",
-        "T",
-        "K",
-        "İ",
-        "L",
-        "İ"
-      ],
-      "words": {
-        "3": [
-          "TEK",
-          "TEL",
-          "KİL",
-          "TİK",
-          "İLK",
-          "İKİ",
-          "KEL"
-        ],
-        "4": [
-          "ETKİ",
-          "ETİK",
-          "ETLİ",
-          "ETİL",
-          "İLKE",
-          "TİKE",
-          "İLİK"
-        ],
-        "5": [
-          "KİLİT",
-          "TEKİL",
-          "TEKLİ",
-          "KİTLE",
-          "TİLKİ"
-        ],
-        "6": [
-          "ETKİLİ"
-        ]
-      }
-    },
-    {
-      "id": 9,
-      "mainWord": "PATİKA",
-      "letters": [
-        "P",
-        "A",
-        "T",
-        "İ",
-        "K",
-        "A"
-      ],
-      "words": {
-        "3": [
-          "KAT",
-          "KAP",
-          "TİK",
-          "ATA",
-          "TİP",
-          "AİT",
-          "PAK"
-        ],
-        "4": [
-          "ATAK",
-          "ATİK",
-          "AKİT",
-          "TAKA",
-          "PATİ",
-          "KATİ",
-          "PAKT"
-        ],
-        "5": [
-          "KATİP",
-          "KİTAP",
-          "PATİK",
-          "TAKİP",
-          "PATAK"
-        ],
-        "6": [
-          "PATİKA"
-        ]
-      }
-    },
-    {
-      "id": 10,
-      "mainWord": "KAPLAN",
-      "letters": [
-        "K",
-        "A",
-        "P",
-        "L",
-        "A",
-        "N"
-      ],
-      "words": {
-        "3": [
-          "KAP",
-          "PAK",
-          "ALA",
-          "ANA",
-          "ALP",
-          "NAL",
-          "KAN"
-        ],
-        "4": [
-          "PLAN",
-          "PLAK",
-          "ALAN",
-          "KALP",
-          "KLAN",
-          "LAPA",
-          "PALA"
-        ],
-        "5": [
-          "PLAKA",
-          "KALAN",
-          "KANAL",
-          "KAPAN",
-          "LAKAP"
-        ],
-        "6": [
-          "KAPLAN"
-        ]
-      }
-    },
-    {
-      "id": 11,
-      "mainWord": "AYNALI",
-      "letters": [
-        "A",
-        "Y",
-        "N",
-        "A",
-        "L",
-        "I"
-      ],
-      "words": {
-        "3": [
-          "ALA",
-          "ANA",
-          "YAN",
-          "YIL",
-          "ANI",
-          "NAL",
-          "AYI"
-        ],
-        "4": [
-          "AYNA",
-          "ALAN",
-          "YALI",
-          "AYAN",
-          "ALAY",
-          "ALIN",
-          "AYLA"
-        ],
-        "5": [
-          "YALIN",
-          "YALAN",
-          "YANAL",
-          "YANLI",
-          "YILAN"
-        ],
-        "6": [
-          "AYNALI"
-        ]
-      }
-    }
-  ]
+ "levels": [
+  {
+   "id": 1,
+   "mainWord": "AŞK",
+   "letters": [
+    "A",
+    "Ş",
+    "K"
+   ],
+   "words": {
+    "3": [
+     "AŞK",
+     "KAŞ"
+    ]
+   }
+  },
+  {
+   "id": 2,
+   "mainWord": "NOT",
+   "letters": [
+    "N",
+    "O",
+    "T"
+   ],
+   "words": {
+    "3": [
+     "NOT",
+     "TON"
+    ]
+   }
+  },
+  {
+   "id": 3,
+   "mainWord": "ŞIK",
+   "letters": [
+    "Ş",
+    "I",
+    "K"
+   ],
+   "words": {
+    "3": [
+     "ŞIK",
+     "KIŞ"
+    ]
+   }
+  },
+  {
+   "id": 4,
+   "mainWord": "POSA",
+   "letters": [
+    "P",
+    "O",
+    "S",
+    "A"
+   ],
+   "words": {
+    "4": [
+     "POSA",
+     "SOPA",
+     "PASO"
+    ]
+   }
+  },
+  {
+   "id": 5,
+   "mainWord": "KAYA",
+   "letters": [
+    "K",
+    "A",
+    "Y",
+    "A"
+   ],
+   "words": {
+    "4": [
+     "KAYA",
+     "YAKA",
+     "AYAK"
+    ]
+   }
+  },
+  {
+   "id": 6,
+   "mainWord": "KARO",
+   "letters": [
+    "K",
+    "A",
+    "R",
+    "O"
+   ],
+   "words": {
+    "4": [
+     "KARO",
+     "ORAK",
+     "ROKA"
+    ]
+   }
+  },
+  {
+   "id": 7,
+   "mainWord": "TERAS",
+   "letters": [
+    "T",
+    "E",
+    "R",
+    "A",
+    "S"
+   ],
+   "words": {
+    "5": [
+     "TERAS"
+    ],
+    "4": [
+     "TERS",
+     "SERT",
+     "REST"
+    ]
+   }
+  },
+  {
+   "id": 8,
+   "mainWord": "KATIK",
+   "letters": [
+    "K",
+    "A",
+    "T",
+    "I",
+    "K"
+   ],
+   "words": {
+    "5": [
+     "KATIK"
+    ],
+    "4": [
+     "KITA",
+     "KATI",
+     "ATIK",
+     "ATKI"
+    ]
+   }
+  },
+  {
+   "id": 9,
+   "mainWord": "LİSTE",
+   "letters": [
+    "L",
+    "İ",
+    "S",
+    "T",
+    "E"
+   ],
+   "words": {
+    "5": [
+     "LİSTE"
+    ],
+    "4": [
+     "ELİT",
+     "ETİL",
+     "ETLİ",
+     "ELTİ"
+    ]
+   }
+  },
+  {
+   "id": 10,
+   "mainWord": "KOYUN",
+   "letters": [
+    "K",
+    "O",
+    "Y",
+    "U",
+    "N"
+   ],
+   "words": {
+    "5": [
+     "KOYUN"
+    ],
+    "4": [
+     "KOYU",
+     "OYUN",
+     "KONU",
+     "OYUK"
+    ]
+   }
+  },
+  {
+   "id": 11,
+   "mainWord": "MANTIK",
+   "letters": [
+    "M",
+    "A",
+    "N",
+    "T",
+    "I",
+    "K"
+   ],
+   "words": {
+    "3": [
+     "TAM",
+     "KAT",
+     "ANI",
+     "TAN",
+     "ANT",
+     "MAT",
+     "KIT"
+    ],
+    "4": [
+     "KATI",
+     "KITA",
+     "TAKI",
+     "ATKI",
+     "ATIK",
+     "AKIN",
+     "TANI"
+    ],
+    "5": [
+     "MANTI",
+     "TANIK",
+     "KANIT",
+     "TANIM",
+     "TAKIM"
+    ],
+    "6": [
+     "MANTIK"
+    ]
+   },
+   "img": 1
+  },
+  {
+   "id": 12,
+   "mainWord": "KARTAL",
+   "letters": [
+    "K",
+    "A",
+    "R",
+    "T",
+    "A",
+    "L"
+   ],
+   "words": {
+    "3": [
+     "KAR",
+     "KAT",
+     "ALT",
+     "ATA",
+     "ALA",
+     "ARA",
+     "ARK"
+    ],
+    "4": [
+     "KRAL",
+     "KARA",
+     "TAKA",
+     "ARKA",
+     "KART",
+     "ATAK",
+     "LATA"
+    ],
+    "5": [
+     "TARAK",
+     "AKTAR",
+     "TARLA",
+     "TAKLA",
+     "KATAR"
+    ],
+    "6": [
+     "KARTAL"
+    ]
+   },
+   "img": 2
+  },
+  {
+   "id": 13,
+   "mainWord": "TERLİK",
+   "letters": [
+    "T",
+    "E",
+    "R",
+    "L",
+    "İ",
+    "K"
+   ],
+   "words": {
+    "3": [
+     "TER",
+     "TEK",
+     "TEL",
+     "TİK",
+     "KİR",
+     "İLK",
+     "KİL"
+    ],
+    "4": [
+     "TERK",
+     "ELİT",
+     "ETKİ",
+     "ERİL",
+     "TİKE",
+     "ERİK",
+     "ETİK"
+    ],
+    "5": [
+     "TEKİL",
+     "TEKLİ",
+     "TERLİ",
+     "KİTLE",
+     "LİTRE"
+    ],
+    "6": [
+     "TERLİK"
+    ]
+   },
+   "img": 3
+  },
+  {
+   "id": 14,
+   "mainWord": "TELKİN",
+   "letters": [
+    "T",
+    "E",
+    "L",
+    "K",
+    "İ",
+    "N"
+   ],
+   "words": {
+    "3": [
+     "TEK",
+     "TEL",
+     "TEN",
+     "NET",
+     "KİN",
+     "TİK",
+     "KEL"
+    ],
+    "4": [
+     "EKİN",
+     "ENİK",
+     "İNEK",
+     "ETİK",
+     "ETKİ",
+     "İLKE",
+     "ETLİ"
+    ],
+    "5": [
+     "TEKİL",
+     "TEKLİ",
+     "KİTLE",
+     "TEKİN",
+     "ETKİN"
+    ],
+    "6": [
+     "TELKİN"
+    ]
+   },
+   "img": 4
+  },
+  {
+   "id": 15,
+   "mainWord": "PARMAK",
+   "letters": [
+    "P",
+    "A",
+    "R",
+    "M",
+    "A",
+    "K"
+   ],
+   "words": {
+    "3": [
+     "KAR",
+     "ARA",
+     "AMA",
+     "KAP",
+     "ARP",
+     "ARK",
+     "RAP"
+    ],
+    "4": [
+     "PARK",
+     "PARA",
+     "ARMA",
+     "KARA",
+     "KAMA",
+     "ARKA",
+     "KAMP"
+    ],
+    "5": [
+     "KARMA",
+     "RAMAK",
+     "PARKA",
+     "MARKA",
+     "RAKAM"
+    ],
+    "6": [
+     "PARMAK"
+    ]
+   },
+   "img": 5
+  },
+  {
+   "id": 16,
+   "mainWord": "KAMERA",
+   "letters": [
+    "K",
+    "A",
+    "M",
+    "E",
+    "R",
+    "A"
+   ],
+   "words": {
+    "3": [
+     "KAR",
+     "ARK",
+     "KEM",
+     "ARA",
+     "ERK"
+    ],
+    "4": [
+     "KARA",
+     "KARE",
+     "ARKA",
+     "MERA",
+     "ARMA",
+     "KAMA",
+     "KREM"
+    ],
+    "5": [
+     "MERAK",
+     "KAMER",
+     "RAMAK",
+     "KARMA",
+     "RAKAM",
+     "KREMA",
+     "MARKA"
+    ],
+    "6": [
+     "KAMERA"
+    ]
+   },
+   "img": 6
+  },
+  {
+   "id": 17,
+   "mainWord": "MAKALE",
+   "letters": [
+    "M",
+    "A",
+    "K",
+    "A",
+    "L",
+    "E"
+   ],
+   "words": {
+    "3": [
+     "KEL",
+     "AMA",
+     "ALA",
+     "KEM",
+     "MAL",
+     "ELA",
+     "KAM"
+    ],
+    "4": [
+     "KALE",
+     "ELMA",
+     "ALEM",
+     "KAMA",
+     "LAMA",
+     "MALA",
+     "AMEL"
+    ],
+    "5": [
+     "MALAK",
+     "KALEM",
+     "ALMAK",
+     "KELAM",
+     "EMLAK"
+    ],
+    "6": [
+     "MAKALE"
+    ]
+   },
+   "img": 7
+  },
+  {
+   "id": 18,
+   "mainWord": "ETKİLİ",
+   "letters": [
+    "E",
+    "T",
+    "K",
+    "İ",
+    "L",
+    "İ"
+   ],
+   "words": {
+    "3": [
+     "TEK",
+     "TEL",
+     "KİL",
+     "TİK",
+     "İLK",
+     "İKİ",
+     "KEL"
+    ],
+    "4": [
+     "ETKİ",
+     "ETİK",
+     "ETLİ",
+     "ETİL",
+     "İLKE",
+     "TİKE",
+     "İLİK"
+    ],
+    "5": [
+     "KİLİT",
+     "TEKİL",
+     "TEKLİ",
+     "KİTLE",
+     "TİLKİ"
+    ],
+    "6": [
+     "ETKİLİ"
+    ]
+   },
+   "img": 8
+  },
+  {
+   "id": 19,
+   "mainWord": "PATİKA",
+   "letters": [
+    "P",
+    "A",
+    "T",
+    "İ",
+    "K",
+    "A"
+   ],
+   "words": {
+    "3": [
+     "KAT",
+     "KAP",
+     "TİK",
+     "ATA",
+     "TİP",
+     "AİT",
+     "PAK"
+    ],
+    "4": [
+     "ATAK",
+     "ATİK",
+     "AKİT",
+     "TAKA",
+     "PATİ",
+     "KATİ",
+     "PAKT"
+    ],
+    "5": [
+     "KATİP",
+     "KİTAP",
+     "PATİK",
+     "TAKİP",
+     "PATAK"
+    ],
+    "6": [
+     "PATİKA"
+    ]
+   },
+   "img": 9
+  },
+  {
+   "id": 20,
+   "mainWord": "KAPLAN",
+   "letters": [
+    "K",
+    "A",
+    "P",
+    "L",
+    "A",
+    "N"
+   ],
+   "words": {
+    "3": [
+     "KAP",
+     "PAK",
+     "ALA",
+     "ANA",
+     "ALP",
+     "NAL",
+     "KAN"
+    ],
+    "4": [
+     "PLAN",
+     "PLAK",
+     "ALAN",
+     "KALP",
+     "KLAN",
+     "LAPA",
+     "PALA"
+    ],
+    "5": [
+     "PLAKA",
+     "KALAN",
+     "KANAL",
+     "KAPAN",
+     "LAKAP"
+    ],
+    "6": [
+     "KAPLAN"
+    ]
+   },
+   "img": 10
+  },
+  {
+   "id": 21,
+   "mainWord": "AYNALI",
+   "letters": [
+    "A",
+    "Y",
+    "N",
+    "A",
+    "L",
+    "I"
+   ],
+   "words": {
+    "3": [
+     "ALA",
+     "ANA",
+     "YAN",
+     "YIL",
+     "ANI",
+     "NAL",
+     "AYI"
+    ],
+    "4": [
+     "AYNA",
+     "ALAN",
+     "YALI",
+     "AYAN",
+     "ALAY",
+     "ALIN",
+     "AYLA"
+    ],
+    "5": [
+     "YALIN",
+     "YALAN",
+     "YANAL",
+     "YANLI",
+     "YILAN"
+    ],
+    "6": [
+     "AYNALI"
+    ]
+   },
+   "img": 11
+  },
+  {
+   "id": 22,
+   "mainWord": "POSTAL",
+   "letters": [
+    "P",
+    "O",
+    "S",
+    "T",
+    "A",
+    "L"
+   ],
+   "words": {
+    "6": [
+     "POSTAL"
+    ],
+    "5": [
+     "POSTA",
+     "TOPAL",
+     "PALTO",
+     "SALTO",
+     "PLATO"
+    ],
+    "4": [
+     "POST",
+     "POTA",
+     "SOPA",
+     "OLTA",
+     "POSA",
+     "SALT",
+     "OPAL"
+    ],
+    "3": [
+     "ALT",
+     "AST",
+     "ALO",
+     "SOL",
+     "ALP",
+     "TOP",
+     "PAS"
+    ]
+   }
+  },
+  {
+   "id": 23,
+   "mainWord": "FİLTRE",
+   "letters": [
+    "F",
+    "İ",
+    "L",
+    "T",
+    "R",
+    "E"
+   ],
+   "words": {
+    "6": [
+     "FİLTRE"
+    ],
+    "5": [
+     "FİTRE",
+     "LİTRE",
+     "TERLİ",
+     "TERFİ",
+     "TELİF"
+    ],
+    "4": [
+     "FİLE",
+     "FİRE",
+     "TİRE",
+     "ERİL",
+     "ETİL",
+     "ELİT",
+     "ETLİ"
+    ],
+    "3": [
+     "İLE",
+     "TEL",
+     "TER",
+     "TEF",
+     "LİF",
+     "FİL",
+     "RET"
+    ]
+   }
+  },
+  {
+   "id": 24,
+   "mainWord": "KARTON",
+   "letters": [
+    "K",
+    "A",
+    "R",
+    "T",
+    "O",
+    "N"
+   ],
+   "words": {
+    "6": [
+     "KARTON"
+    ],
+    "5": [
+     "KORNA",
+     "NOKTA",
+     "TORNA",
+     "ORTAK",
+     "AKORT"
+    ],
+    "4": [
+     "KARO",
+     "ROKA",
+     "ORTA",
+     "NOTA",
+     "ORAN",
+     "TANK",
+     "ORAK"
+    ],
+    "3": [
+     "KAR",
+     "KAN",
+     "NAR",
+     "KAT",
+     "TAN",
+     "NOT",
+     "ANT"
+    ]
+   }
+  },
+  {
+   "id": 25,
+   "mainWord": "YANMAK",
+   "letters": [
+    "Y",
+    "A",
+    "N",
+    "M",
+    "A",
+    "K"
+   ],
+   "words": {
+    "6": [
+     "YANMAK"
+    ],
+    "5": [
+     "YAMAK",
+     "YANAK",
+     "ANMAK",
+     "YAMAN",
+     "KANMA"
+    ],
+    "4": [
+     "AYAK",
+     "KAMA",
+     "KAYA",
+     "YAMA",
+     "YAKA",
+     "AYNA",
+     "MANA"
+    ],
+    "3": [
+     "YAN",
+     "NAM",
+     "KAN",
+     "AMA",
+     "ANA",
+     "YAK",
+     "KAM"
+    ]
+   }
+  },
+  {
+   "id": 26,
+   "mainWord": "SEYAHAT",
+   "letters": [
+    "S",
+    "E",
+    "Y",
+    "A",
+    "H",
+    "A",
+    "T"
+   ],
+   "words": {
+    "7": [
+     "SEYAHAT"
+    ],
+    "5": [
+     "HASET",
+     "HAYAT",
+     "HAYTA",
+     "HASTA",
+     "SAHTE"
+    ],
+    "4": [
+     "HAYA",
+     "HATA",
+     "SAHA",
+     "SAAT",
+     "TASA",
+     "YASA",
+     "AYET"
+    ],
+    "3": [
+     "HAT",
+     "HAS",
+     "YAS",
+     "ASA",
+     "SET",
+     "TAS",
+     "ATA"
+    ]
+   }
+  },
+  {
+   "id": 27,
+   "mainWord": "KAYALIK",
+   "letters": [
+    "K",
+    "A",
+    "Y",
+    "A",
+    "L",
+    "I",
+    "K"
+   ],
+   "words": {
+    "7": [
+     "KAYALIK"
+    ],
+    "5": [
+     "KAYAK",
+     "YALAK",
+     "KAYIK",
+     "KIYAK",
+     "AYLAK"
+    ],
+    "4": [
+     "YALI",
+     "KAYA",
+     "YAKA",
+     "AYAK",
+     "ALAY",
+     "AKIL",
+     "AYIK"
+    ],
+    "3": [
+     "ALA",
+     "KIL",
+     "AYI",
+     "YIL",
+     "YAK",
+     "KAK",
+     "YAL"
+    ]
+   }
+  },
+  {
+   "id": 28,
+   "mainWord": "TERSLİK",
+   "letters": [
+    "T",
+    "E",
+    "R",
+    "S",
+    "L",
+    "İ",
+    "K"
+   ],
+   "words": {
+    "7": [
+     "TERSLİK"
+    ],
+    "5": [
+     "İSTEK",
+     "KESİT",
+     "SİRKE",
+     "KESİR",
+     "KİLER"
+    ],
+    "4": [
+     "REST",
+     "SERT",
+     "TERS",
+     "SİTE",
+     "RİSK",
+     "KİST",
+     "ETİK"
+    ],
+    "3": [
+     "SET",
+     "KİR",
+     "KİL",
+     "TEK",
+     "TER",
+     "İLK",
+     "SEL"
+    ]
+   }
+  },
+  {
+   "id": 29,
+   "mainWord": "MEKANİK",
+   "letters": [
+    "M",
+    "E",
+    "K",
+    "A",
+    "N",
+    "İ",
+    "K"
+   ],
+   "words": {
+    "7": [
+     "MEKANİK"
+    ],
+    "5": [
+     "KEMAN",
+     "ANEMİ",
+     "İNMEK",
+     "KEMİK",
+     "MEKİK"
+    ],
+    "4": [
+     "ENİK",
+     "İNEK",
+     "MANİ",
+     "EKİN",
+     "EMİN",
+     "NAME",
+     "İMAN"
+    ],
+    "3": [
+     "İMA",
+     "KEK",
+     "KİN",
+     "NAM",
+     "MEN",
+     "NEM",
+     "KAN"
+    ]
+   }
+  },
+  {
+   "id": 30,
+   "mainWord": "PLASTİK",
+   "letters": [
+    "P",
+    "L",
+    "A",
+    "S",
+    "T",
+    "İ",
+    "K"
+   ],
+   "words": {
+    "7": [
+     "PLASTİK"
+    ],
+    "5": [
+     "TAKSİ",
+     "KİTAP",
+     "TAKİP",
+     "İPTAL",
+     "TALİP"
+    ],
+    "4": [
+     "ATİK",
+     "PATİ",
+     "SALT",
+     "KALP",
+     "ASİL",
+     "KAST",
+     "KİST"
+    ],
+    "3": [
+     "ALT",
+     "ASİ",
+     "İLK",
+     "KİL",
+     "PAS",
+     "SAP",
+     "AİT"
+    ]
+   }
+  }
+ ]
 }
