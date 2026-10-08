@@ -38,7 +38,7 @@ async function init(){
  catch(e){msg("Seviyeler yüklenemedi: "+e.message)}}
 
 function load(){
- const L=S.levels[S.i],all=[...new Set([3,4,5,6].flatMap(n=>L.words[n]||[]))];
+ const L=S.levels[S.i],all=[...new Set(Object.values(L.words).flat())]; // 3-7 harfli tüm kelime uzunlukları
  const lay=layout(all,L.id*977+13);
  S.all=new Set(all);S.words=lay.words;S.rows=lay.rows;S.cols=lay.cols;
  const X=S.xd[L.id]||{};S.xw=X.x||{};S.xm=X.m||{};
