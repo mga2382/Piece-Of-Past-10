@@ -71,3 +71,5 @@ header{height:60px;display:flex;align-items:center;justify-content:space-between
 .xtxt span{font-size:14px;line-height:1.35;opacity:.92}
 .xtag{flex:none;padding:2px 8px;border-radius:10px;background:#f0a81c;color:#2b2f55;font-style:normal;font-weight:800;font-size:13px}
 #xEmpty{padding:24px 12px;text-align:center;font-size:15px;opacity:.8}
+.xsep{flex:none;margin-top:8px;padding:0 4px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.65}
+.xtag.done{background:#ffffff33;color:#fff}

@@ -1,14 +1,17 @@
 // ---- Ekstra kelimeler (Büyük Türkçe Sözlük) ----
-// Seviye listesinde olmayan ama sözlükte bulunan her kelime XC altın verir; XN ekstra kelimeye ulaşınca XR altın ödül alınır.
-// (Bir bölümde sözlükten XN'den az ekstra kelime çıkarsa hedef o sayıya iner: S.xn)
+// Kural: kelime haritada varsa haritaya yazılır; yoksa Büyük Türkçe Sözlük'te aranır; sözlükte varsa "ekstra kelime" olarak kaydedilir ve XC altın verir.
+// Sözlükte olmayan kelime coin vermez, sayaca girmez. XN ekstra kelimeye ulaşınca XR altın ödül alınır.
+// Ekstra kelimeler tüm bölümlerde ortak sayılır, bölüm değişince sıfırlanmaz.
+// S.xf: ödülü henüz alınmamış (sayaçtaki) kelimeler, S.xh: ödülü alınmış önceki kelimeler (kelime -> bölüm id'si).
+// Her XN kelimede XR altın ödül alınır; ödül alınınca sayaç sıfırlanır, alınan kelimeler S.xh'a geçer (tekrar coin vermez).
 const XN=10,XC=10,XR=100;
 const $=id=>document.getElementById(id);
-const S={levels:[],i:0,u:0,P:{},gd:"",on:false,coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),bonus:new Set(),extra:new Set(),xw:{},xm:{},xd:{},xn:XN,xclaim:false,cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
+const S={levels:[],i:0,u:0,P:{},gd:"",on:false,coins:0,hint:10,hammer:5,words:[],all:new Set(),found:new Set(),xf:{},xh:{},xw:{},xm:{},xd:{},cells:new Map(),letters:[],pos:[],sel:[],drag:false,hm:false,rows:0,cols:0,done:false};
 const wheel=$("wheel"),cv=$("path"),cx=cv.getContext("2d");
 const save=()=>{try{
  const L=S.levels[S.i];
- if(L&&S.cells.size)S.P[L.id]={on:[...S.cells].filter(([k,c])=>c.on).map(([k])=>k),found:[...S.found],bonus:[...S.bonus],extra:[...S.extra],xclaim:S.xclaim,letters:S.letters,done:S.done};
- localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,gd:S.gd,coins:S.coins,hint:S.hint,hammer:S.hammer}))}catch(e){}};
+ if(L&&S.cells.size)S.P[L.id]={on:[...S.cells].filter(([k,c])=>c.on).map(([k])=>k),found:[...S.found],letters:S.letters,done:S.done};
+ localStorage.setItem("pop10",JSON.stringify({i:S.i,u:S.u,P:S.P,gd:S.gd,coins:S.coins,hint:S.hint,hammer:S.hammer,xf:S.xf,xh:S.xh}))}catch(e){}};
 const msg=t=>{$("msg").textContent=t};
 const SND={ses:new Audio("assets/ses.mp3"),cark:new Audio("assets/cark.mp3"),reward:new Audio("assets/reward.mp3")};
 SND.reward.preload="auto";
@@ -21,6 +24,14 @@ async function init(){
   try{const r2=await fetch("data/extras.json");if(r2.ok)S.xd=await r2.json()}catch(e){S.xd={}}
   try{const sv=JSON.parse(localStorage.getItem("pop10"))||{};if(sv.u==null)sv.u=sv.i||0;Object.assign(S,sv)}catch(e){}
   if(!S.P||typeof S.P!=="object")S.P={};
+  if(!S.xf||typeof S.xf!=="object")S.xf={};
+  if(!S.xh||typeof S.xh!=="object")S.xh={};
+  let oldClaim=!!S.xclaim;delete S.xclaim;
+  Object.keys(S.P).forEach(id=>{const p=S.P[id];if(!p)return;(p.extra||[]).forEach(w=>{if(!S.xf[w]&&!S.xh[w])S.xf[w]=+id});if(p.xclaim)oldClaim=true;delete p.extra;delete p.xclaim}); // eski kayıtları aktar
+  if(oldClaim)Object.keys(S.xf).slice(0,XN).forEach(w=>{S.xh[w]=S.xf[w];delete S.xf[w]}); // eski sürümde alınmış ödülün kelimeleri
+  if(Object.keys(S.xd).length){ // eski "bölüm bonus" kelimeleri: sözlükte varsa ekstra sayılır, yoksa atılır
+   Object.keys(S.P).forEach(id=>{const p=S.P[id];if(!p)return;(p.bonus||[]).forEach(w=>{if(!S.xf[w]&&!S.xh[w]&&inDict(w,id))S.xf[w]=+id});delete p.bonus});
+   Object.keys(S.xf).forEach(w=>{if(!inDict(w,S.xf[w]))delete S.xf[w]})}
   if(!S.levels[S.i])S.i=0;
   S.u=Math.max(0,Math.min(S.u|0,S.levels.length-1));if(S.i>S.u)S.i=S.u;
   load();addEventListener("resize",()=>{buildWheel();drawBoard()})}
@@ -30,17 +41,14 @@ function load(){
  const L=S.levels[S.i],all=[...new Set([3,4,5,6].flatMap(n=>L.words[n]||[]))];
  const lay=layout(all,L.id*977+13);
  S.all=new Set(all);S.words=lay.words;S.rows=lay.rows;S.cols=lay.cols;
- const X=S.xd[L.id]||{};S.xw=X.x||{};S.xm=X.m||{};S.xn=Math.min(XN,Object.keys(S.xw).length)||XN;
- S.found=new Set();S.bonus=new Set();S.extra=new Set();S.xclaim=false;S.cells=new Map();S.done=false;S.hm=false;
+ const X=S.xd[L.id]||{};S.xw=X.x||{};S.xm=X.m||{};
+ S.found=new Set();S.cells=new Map();S.done=false;S.hm=false;
  S.words.forEach(o=>[...o.w].forEach((ch,k)=>{const key=(o.r+(o.d?k:0))+","+(o.c+(o.d?0:k));if(!S.cells.has(key))S.cells.set(key,{ch,on:false})}));
  S.letters=mix(L.letters);
  const p=S.P[L.id];
  if(p){try{
   (p.on||[]).forEach(k=>{const c=S.cells.get(k);if(c)c.on=true});
   S.found=new Set((p.found||[]).filter(w=>S.words.some(o=>o.w===w)));
-  S.bonus=new Set((p.bonus||[]).filter(w=>S.all.has(w)&&!S.words.some(o=>o.w===w)));
-  S.extra=new Set((p.extra||[]).filter(w=>S.xw[w]&&!S.all.has(w)));
-  S.xclaim=!!p.xclaim&&S.extra.size>=S.xn;
   S.done=!!p.done;
   if(p.letters&&[...p.letters].sort().join()===[...L.letters].sort().join())S.letters=[...p.letters]}catch(e){}}
  msg("");$("levelNumber").textContent=L.id;setBg(L.id);
@@ -83,20 +91,17 @@ function revealWord(w){const o=S.words.find(x=>x.w===w);
 function submit(w){
  if(S.found.has(w))return msg("Bu kelime zaten bulundu");
  if(S.words.some(o=>o.w===w)){S.coins+=2;msg("Doğru! +2");revealWord(w)}
- else if(S.all.has(w)){if(S.bonus.has(w))msg("Bonus kelime zaten bulundu");else{S.bonus.add(w);S.coins++;msg("Bonus kelime! +1");ui();save()}}
- else if(S.xw[w]){
-  if(S.extra.has(w))msg("Ekstra kelime zaten bulundu");
-  else{S.extra.add(w);S.coins+=XC;
-   msg(S.extra.size===S.xn&&!S.xclaim?S.xn+" ekstra kelime! Ödülünü al 🎁":"Ekstra kelime! +"+XC);
-   ui();save()}}
+ else if(S.xf[w]||S.xh[w])msg("Ekstra kelime zaten bulundu");
+ else if(S.xw[w]||S.xm[w]){S.xf[w]=S.levels[S.i].id;S.coins+=XC;
+  msg(xCount()===XN?XN+" ekstra kelime! Ödülünü al 🎁":"Ekstra kelime! +"+XC);ui();save()}
  else msg("Bu kelime sözlükte yok")}
 
 function ui(){
  $("coins").textContent=S.coins;$("hintN").textContent=S.hint;$("hammerN").textContent=S.hammer;
  $("progressText").textContent=S.found.size+"/"+S.words.length;
- const xn=S.extra.size;$("bonusN").textContent=xn+"/"+S.xn;
- $("bonus").style.setProperty("--p",100*Math.min(xn,S.xn)/S.xn);
- $("bonus").classList.toggle("rdy",xn>=S.xn&&!S.xclaim&&Object.keys(S.xw).length>0);
+ const xn=xCount();$("bonusN").textContent=Math.min(xn,XN)+"/"+XN;
+ $("bonus").style.setProperty("--p",100*Math.min(xn,XN)/XN);
+ $("bonus").classList.toggle("rdy",xn>=XN);
  if(!$("bonusPanel").classList.contains("hidden"))paintBonus();
  $("prevBtn").style.opacity=S.i>0?1:.35;
  $("nextBtn").style.opacity=(S.i<S.u&&S.i<S.levels.length-1)?1:.35}
@@ -181,31 +186,36 @@ $("giftClose").onclick=()=>{try{SND.cark.pause()}catch(e){}
  $("gift").classList.add("hidden");if(ended())showEnd()};
 
 // ---- Bonus alanı: ekstra kelimeler + Türkçe anlamları ----
+const xCount=()=>Object.keys(S.xf).length;
+function inDict(w,id){const d=S.xd[id]||{};return !!((d.x||{})[w]||(d.m||{})[w])} // kelime, o bölümün sözlük verisinde var mı
 function paintBonus(){
- const n=S.extra.size,full=n>=S.xn&&Object.keys(S.xw).length>0,list=$("xList");
- $("xSub").textContent="Haritada olmayan ama sözlükte olan her kelime +"+XC+" altın. "+S.xn+" ekstra kelimeye ulaşınca +"+XR+" altın ödül!";
- $("xInfo").textContent=S.xclaim?"Ödül alındı ✓ +"+XR+" altın":full?"Ödülün hazır! 🎁":n+" / "+S.xn+" ekstra kelime";
- $("xBar").firstElementChild.style.width=(100*Math.min(n,S.xn)/S.xn)+"%";
- $("xClaim").classList.toggle("hidden",!full||S.xclaim);
+ const n=xCount(),k=Math.floor(n/XN),list=$("xList"),old=Object.keys(S.xh);
+ $("xSub").textContent="Haritada olmayan ama sözlükte olan her kelime ekstra sayılır ve +"+XC+" altın verir. Her "+XN+" ekstra kelimede +"+XR+" altın ödül!";
+ $("xInfo").textContent=k?"Ödülün hazır! 🎁":n+" / "+XN+" ekstra kelime";
+ $("xBar").firstElementChild.style.width=(100*Math.min(n,XN)/XN)+"%";
+ $("xClaim").classList.toggle("hidden",!k);$("xClaim").textContent="ÖDÜLÜ AL +"+(k*XR);
  list.innerHTML="";
- const row=(w,m,tag)=>{const d=document.createElement("div"),b=document.createElement("div"),h=document.createElement("b"),t=document.createElement("i");
+ const row=(w,m,tag,done)=>{const d=document.createElement("div"),b=document.createElement("div"),h=document.createElement("b"),t=document.createElement("i");
   d.className="xrow";b.className="xtxt";h.textContent=w;b.appendChild(h);
   if(m){const s=document.createElement("span");s.textContent=m;b.appendChild(s)}
-  t.className="xtag";t.textContent=tag;d.appendChild(b);d.appendChild(t);list.appendChild(d)};
- [...S.extra].reverse().forEach(w=>row(w,S.xw[w],"+"+XC));
- [...S.bonus].reverse().forEach(w=>row(w,S.xm[w],"+1"));
+  t.className="xtag"+(done?" done":"");t.textContent=tag;d.appendChild(b);d.appendChild(t);list.appendChild(d)};
+ const sep=t=>{const d=document.createElement("div");d.className="xsep";d.textContent=t;list.appendChild(d)};
+ const mean=(w,id)=>{const d=S.xd[id]||{};return (d.x||{})[w]||(d.m||{})[w]||""};
+  Object.keys(S.xf).reverse().forEach(w=>row(w,mean(w,S.xf[w]),"+"+XC));
+ if(old.length){sep("Önceki ekstra kelimeler ("+old.length+")");old.reverse().forEach(w=>row(w,mean(w,S.xh[w]),"✓",true))}
  if(!list.children.length){const e=document.createElement("div");e.id="xEmpty";
-  e.textContent="Henüz ekstra kelime yok. Haritada olmayan ama Türkçe sözlükte geçen kelimeleri bul!";list.appendChild(e)}}
+  e.textContent="Henüz ekstra kelime yok. Haritada olmayan ama sözlükte geçen kelimeleri bul!";list.appendChild(e)}}
 $("bonus").onclick=()=>{S.drag=false;S.sel=[];paint();paintBonus();$("bonusPanel").classList.remove("hidden")};
 $("xClose").onclick=()=>$("bonusPanel").classList.add("hidden");
-$("xClaim").onclick=()=>{if(S.extra.size<S.xn||S.xclaim||!Object.keys(S.xw).length)return;
- S.xclaim=true;S.coins+=XR;snd("reward");msg("");ui();save()};
+$("xClaim").onclick=()=>{const k=Math.floor(xCount()/XN);if(!k)return;
+ Object.keys(S.xf).slice(0,k*XN).forEach(w=>{S.xh[w]=S.xf[w];delete S.xf[w]}); // ödülü alınan kelimeler önceki listesine geçer, sayaç sıfırlanır
+ S.coins+=k*XR;snd("reward");msg("");ui();save()};
 
 // ---- Oyun sonu ----
 const ended=()=>S.levels.length>0&&S.i>=S.levels.length-1&&S.done;
 function showEnd(){$("end").classList.remove("hidden")}
 $("replayBtn").onclick=()=>{
- S.coins=0;S.hint=10;S.hammer=5;S.u=0;S.i=0;S.P={};
+ S.coins=0;S.hint=10;S.hammer=5;S.u=0;S.i=0;S.P={};S.xf={};S.xh={};
  $("end").classList.add("hidden");load()};
 
 // ---- Ayarlar (⚙️): ses seviyesi ----
